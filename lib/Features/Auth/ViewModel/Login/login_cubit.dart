@@ -4,11 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../Core/Api Manager/api_manager.dart';
+import '../../Models/Login Model/LoginResponse.dart';
 import 'login_state.dart';
 
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
+  static LoginResponse userModel = LoginResponse();
 
   login(
       {
@@ -21,8 +23,9 @@ class LoginCubit extends Cubit<LoginState> {
           email: email,
           password: password,
           );
+      userModel.data = response.data;
 
-      emit(LoginSuccess(response.message??''));
+      emit(LoginSuccess(response));
     } on TimeoutException catch (ex) {
       emit(LoginError('Please Check Your Internet\n $ex'));
     } catch (ex) {

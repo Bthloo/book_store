@@ -1,4 +1,6 @@
+import 'package:book_store/Core/Component/search.dart';
 import 'package:book_store/Features/Auth/View/Pages/login_screen.dart';
+import 'package:book_store/Features/Book%20Details%20Screen/View/Pages/movie_details.dart';
 import 'package:flutter/material.dart';
 
 import 'Features/Auth/View/Pages/register_screen.dart';
@@ -37,13 +39,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         LoginScreen.routeName: (_) => LoginScreen(),
         OnBoarding.routeName : (_) => OnBoarding(),
         RegisterScreen.routeName : (_) => RegisterScreen(),
         OtpScreen.routeName : (_) => OtpScreen(),
         HomeScreen.routeName : (_) => HomeScreen(),
+        BookDetails.routeName : (_) => BookDetails(),
+        SearchProduct.routeName : (_) => SearchProduct(),
 
       },
     );

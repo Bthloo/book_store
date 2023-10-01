@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:book_store/Features/Auth/ViewModel/Login/login_cubit.dart';
+import 'package:book_store/Features/Books%20Tab/Model/ProductsResponse.dart';
+import 'package:book_store/Features/Books%20Tab/Model/Search%20Model/SearchResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/All%20Categories/AllCategoriesResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/Best%20Seller%20Model/BestSellerResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/New%20Arrival/NewArrivalResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/Slider%20Model/SliderResponse.dart';
+import 'package:book_store/Features/Profile%20tab/Model/ProfileResponse.dart';
+import 'package:book_store/Features/Profile%20tab/Model/Update%20Model/UpdateResponse.dart';
 
-import '../../Features/Auth/Models/Login Model/login_response.dart';
+import '../../Features/Auth/Models/Login Model/LoginResponse.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Features/Auth/Models/Register Model/respon.dart';
@@ -22,9 +28,7 @@ class ApiManager {
           'email': email,
           'password': password
         }
-
-      // headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
-    );
+        );
 
     var loginResponse = LoginResponse.fromJson(jsonDecode(request.body));
     return loginResponse;
@@ -111,6 +115,70 @@ class ApiManager {
 
     var newArrival = NewArrivalResponse.fromJson(jsonDecode(request.body));
     return newArrival;
+  }
+
+
+
+  static Future<ProfileResponse> profile() async {
+    var uri = Uri.https(baseUrl, 'api/profile');
+    var request = await http.get(
+        uri,
+      headers: {HttpHeaders.authorizationHeader:
+      'Bearer ${LoginCubit.userModel.data?.token}'
+      },
+    );
+
+    var profileResponse = ProfileResponse.fromJson(jsonDecode(request.body));
+    return profileResponse;
+  }
+
+
+
+  static Future<UpdateResponse> update({
+    required String email,
+    required String name,
+    required String address,
+    required String phone,
+    required String city
+  }) async {
+    var uri = Uri.https(baseUrl, 'api/update-profile');
+    var request = await http.post(
+        uri,
+        body: {
+          'email': email,
+          'name': name,
+         'address' : address,
+          'city' : city,
+          'phone' : phone
+        },
+
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+    );
+
+    var update = UpdateResponse.fromJson(jsonDecode(request.body));
+    return update;
+  }
+
+
+
+  static Future<ProductsResponse> products({required int page}) async {
+    var uri = Uri.https(baseUrl, 'api/products');
+    var request = await http.get(uri);
+
+    var products = ProductsResponse.fromJson(jsonDecode(request.body));
+
+    return products;
+  }
+
+  static Future<SearchResponse> search({required String keyWord}) async {
+    var uri = Uri.https(baseUrl, 'api/products-search');
+    var request = await http.get(uri,headers: {
+      'name' : 'z'
+    });
+    print(request.body);
+    var search = SearchResponse.fromJson(jsonDecode(request.body));
+    print(search.message??'lll');
+    return search;
   }
 
 }

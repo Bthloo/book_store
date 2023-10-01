@@ -1,3 +1,4 @@
+import 'package:book_store/Features/Book%20Details%20Screen/View/Pages/movie_details.dart';
 import 'package:book_store/Features/Home%20Tab/ViewModel/Categories/all_categories_cubit.dart';
 import 'package:book_store/Features/Home%20Tab/ViewModel/New%20Arrival/new_arrival_cubit.dart';
 import 'package:book_store/Features/Home%20Tab/ViewModel/SliderCubit/slider_cubit.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Component/book_item.dart';
 import '../../../../Core/Component/slider.dart';
+import '../../Models/Best Seller Model/BestSellerResponse.dart';
+import '../../Models/New Arrival/NewArrivalResponse.dart';
 import '../../ViewModel/Best Seller/best_seller_cubit.dart';
 
 class HomeTab extends StatelessWidget {
@@ -132,6 +135,10 @@ class HomeTab extends StatelessWidget {
                         return InkWell(
                           borderRadius: BorderRadius.circular(25),
                           onTap: () {
+                            Navigator.pushNamed(context, BookDetails.routeName,
+                              arguments: Argument(index: index,
+                                  bestSellerResponse: state.bestSellerResponse)
+                            );
                             // Navigator.pushNamed(
                             //     context,
                             //     MovieDetailsScreen.routeName,
@@ -296,6 +303,10 @@ class HomeTab extends StatelessWidget {
                         return InkWell(
                           borderRadius: BorderRadius.circular(25),
                           onTap: () {
+                            Navigator.pushNamed(context,BookDetails.routeName,
+                                arguments: Argument(index: index,
+                                    newArrivalResponse: state.newArrivalResponse)
+                            );
                             // Navigator.pushNamed(
                             //     context,
                             //     MovieDetailsScreen.routeName,
@@ -338,4 +349,11 @@ class HomeTab extends StatelessWidget {
       ),
     );
   }
+}
+class Argument {
+  int index;
+  NewArrivalResponse? newArrivalResponse;
+  BestSellerResponse? bestSellerResponse;
+  Argument({required this.index,this.newArrivalResponse,this.bestSellerResponse});
+
 }

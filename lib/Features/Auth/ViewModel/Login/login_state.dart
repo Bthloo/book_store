@@ -2,7 +2,9 @@
 
 
 
-import '../../Models/Login Model/login_response.dart';
+import 'package:flutter/cupertino.dart';
+
+import '../../Models/Login Model/LoginResponse.dart';
 
 abstract class LoginState {}
 
@@ -11,9 +13,9 @@ class LoginInitial extends LoginState {}
 class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
- //LoginResponse loginResponse;
-  String message;
- LoginSuccess(this.message);
+ LoginResponse loginResponse;
+  //String message;
+ LoginSuccess(this.loginResponse);
 }
 
 class LoginError extends LoginState {

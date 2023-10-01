@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Component/book_item.dart';
 import '../../../../Core/Component/slider.dart';
+import '../../../Books Tab/Model/ProductsResponse.dart';
+import '../../../Books Tab/Model/Search Model/SearchResponse.dart';
 import '../../Models/Best Seller Model/BestSellerResponse.dart';
 import '../../Models/New Arrival/NewArrivalResponse.dart';
 import '../../ViewModel/Best Seller/best_seller_cubit.dart';
@@ -354,6 +356,13 @@ class Argument {
   int index;
   NewArrivalResponse? newArrivalResponse;
   BestSellerResponse? bestSellerResponse;
-  Argument({required this.index,this.newArrivalResponse,this.bestSellerResponse});
+  SearchResponse? searchResponse;
+  ProductsResponse? productsResponse;
+  Argument({required this.index,
+    this.newArrivalResponse,
+    this.bestSellerResponse,
+  this.searchResponse,
+    this.productsResponse
+  });
 
 }

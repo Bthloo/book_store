@@ -36,6 +36,9 @@ class BookDetails extends StatelessWidget {
                   fit: BoxFit.fill,
                   imageUrl: argument.bestSellerResponse?.data?.products?[argument.index].image??
                       argument.newArrivalResponse?.data?.products?[argument.index].image??
+                      argument.productsResponse?.data?.products?[argument.index].image??
+                      argument.searchResponse?.data?.products?[argument.index].image??
+
                       '',
                   placeholder: (context, url) => SizedBox(
                       width: double.infinity,
@@ -53,6 +56,9 @@ class BookDetails extends StatelessWidget {
               const SizedBox(height: 20,),
               Text(argument.bestSellerResponse?.data?.products?[argument.index].name ??
                   argument.newArrivalResponse?.data?.products?[argument.index].name??
+                  argument.productsResponse?.data?.products?[argument.index].name??
+                  argument.searchResponse?.data?.products?[argument.index].name??
+
                   '',
                 style: const TextStyle(
                 fontSize: 30,
@@ -64,6 +70,9 @@ class BookDetails extends StatelessWidget {
                 children: [
                   Text(argument.bestSellerResponse?.data?.products?[argument.index].category??
                       argument.newArrivalResponse?.data?.products?[argument.index].category??
+                      argument.productsResponse?.data?.products?[argument.index].category??
+                      argument.searchResponse?.data?.products?[argument.index].category??
+
                       '',
                     style: const TextStyle(
                       fontSize: 20,
@@ -73,6 +82,9 @@ class BookDetails extends StatelessWidget {
                     children: [
                       Text(argument.bestSellerResponse?.data?.products?[argument.index].price??
                           argument.newArrivalResponse?.data?.products?[argument.index].price??
+                          argument.productsResponse?.data?.products?[argument.index].price??
+                          argument.searchResponse?.data?.products?[argument.index].price??
+
                           '',
                         style: const TextStyle(
                         fontSize: 20,
@@ -85,7 +97,10 @@ class BookDetails extends StatelessWidget {
                         '${
                           argument.bestSellerResponse?.data
                               ?.products?[argument.index].priceAfterDiscount??
-                              argument.newArrivalResponse?.data?.products?[argument.index].priceAfterDiscount
+                              argument.newArrivalResponse?.data?.products?[argument.index].priceAfterDiscount??
+                              argument.productsResponse?.data?.products?[argument.index].priceAfterDiscount??
+                              argument.searchResponse?.data?.products?[argument.index].priceAfterDiscount
+
                         }',
                         style: const TextStyle(
                         fontSize: 20,
@@ -103,6 +118,8 @@ class BookDetails extends StatelessWidget {
               const SizedBox(height: 8,),
                Text(argument.bestSellerResponse?.data?.products?[argument.index].description??
                    argument.newArrivalResponse?.data?.products?[argument.index].description??
+                   argument.productsResponse?.data?.products?[argument.index].description??
+                   argument.searchResponse?.data?.products?[argument.index].description??
                    '',
                 style: const TextStyle(
                   fontSize: 20,

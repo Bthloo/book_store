@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../Features/Book Details Screen/View/Pages/movie_details.dart';
 import '../../Features/Books Tab/ViewModel/SearchViewModel/search_cubit.dart';
+import '../../Features/Home Tab/View/Pages/home_tab.dart';
 
 class SearchProduct extends StatelessWidget {
   SearchProduct({super.key});
@@ -15,7 +17,7 @@ class SearchProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //var cupit = SearchCubit.get(context);
-    searchCubit.search(keyWord: 'z');
+    //searchCubit.search(keyWord: 'z');
     return Scaffold(
       appBar: AppBar(
         title:  TextField(
@@ -38,16 +40,7 @@ class SearchProduct extends StatelessWidget {
           },
           builder: (context, state) {
             if(state is SearchInitial){
-              return TextField(
-                controller: searchController,
-                onChanged: (text) {
-                  searchCubit.search(keyWord: text);
-
-                },
-                onSubmitted: (value) {
-                  searchCubit.search(keyWord: value);
-                },
-              );
+              return Center(child: Text('Enter a search word'));
             }
             if (state is SearchLoading){
               return CircularProgressIndicator();
@@ -56,69 +49,85 @@ class SearchProduct extends StatelessWidget {
               return Text(state.message);
             }
             if(state is SearchSuccess){
+              if(state.searchResponse.data?.products?.length ==0){
+                return Text('There is no Item to show');
+              }
 
               return ListView.separated(
                   itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(25))
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 120,
-                              height: 150,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              decoration: const BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.all(Radius.circular(25))
-                              ),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                imageUrl: state.searchResponse.data?.products?[index].image??'',
-                                placeholder: (context, url) =>
-                                    SizedBox(
-                                        width: double.infinity,
-                                        height: 260,
-                                        child: Shimmer.fromColors(
-                                          baseColor: const Color(0xff56528c),
-                                          highlightColor: const Color(0xff8ee6f1),
-                                          child: Container(color: Colors.grey,),)),
+                    return InkWell(
+                      onTap: (){
+                        Navigator.pushNamed(context,BookDetails.routeName,
+                            arguments: Argument(index: index,
+                                searchResponse: state.searchResponse)
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                            borderRadius: BorderRadius.all(Radius.circular(25))
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 120,
+                                height: 150,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: const BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.all(Radius.circular(25))
+                                ),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.fill,
+                                  imageUrl: state.searchResponse.data?.products?[index].image??'',
+                                  placeholder: (context, url) =>
+                                      SizedBox(
+                                          width: double.infinity,
+                                          height: 260,
+                                          child: Shimmer.fromColors(
+                                            baseColor: const Color(0xff56528c),
+                                            highlightColor: const Color(0xff8ee6f1),
+                                            child: Container(color: Colors.grey,),)),
 
 
-                                errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                                  errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                                ),
+                              ), SizedBox(
+                                width: MediaQuery.of(context).size.width*.4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(state.searchResponse.data?.products?[index].name??'',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    ),
+                                    Text(state.searchResponse.data?.products?[index].category??''),
+                                    Text('${
+                                        state.searchResponse.data?.products?[index]
+                                            .priceAfterDiscount
+                                    }'),
+                                  ],
+                                ),
                               ),
-                            ), SizedBox(
-                              width: MediaQuery.of(context).size.width*.5,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Column(
                                 children: [
-                                  Text(state.searchResponse.data?.products?[index].name??''),
-                                  Text(state.searchResponse.data?.products?[index].category??''),
-                                  Text('${
-                                      state.searchResponse.data?.products?[index]
-                                          .priceAfterDiscount
-                                  }'),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.favorite)),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.shopping_cart))
                                 ],
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.favorite)),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.shopping_cart))
-                              ],
-                            )
+                              )
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );

@@ -171,10 +171,11 @@ class ApiManager {
   }
 
   static Future<SearchResponse> search({required String keyWord}) async {
-    var uri = Uri.https(baseUrl, 'api/products-search');
-    var request = await http.get(uri,headers: {
-      'name' : 'z'
-    });
+    Map<String, String> queryParams = {
+      'name': keyWord,
+    };
+    var uri = Uri.https(baseUrl, 'api/products-search',queryParams);
+    var request = await http.get(uri);
     print(request.body);
     var search = SearchResponse.fromJson(jsonDecode(request.body));
     print(search.message??'lll');

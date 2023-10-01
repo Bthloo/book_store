@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../Book Details Screen/View/Pages/movie_details.dart';
+import '../../../Home Tab/View/Pages/home_tab.dart';
+
 class BooksTab extends StatelessWidget {
   const BooksTab({super.key});
 
@@ -36,66 +39,74 @@ class BooksTab extends StatelessWidget {
              padding: const EdgeInsets.symmetric(horizontal: 10.0),
              child: ListView.separated(
                  itemBuilder: (context, index) {
-                   return Container(
-                     decoration: BoxDecoration(
-                         border: Border.all(color: Colors.black, width: 1),
-                         borderRadius: BorderRadius.all(Radius.circular(25))
-                     ),
-                     child: Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                           Container(
-                             width: 120,
-                             height: 150,
-                             clipBehavior: Clip.antiAliasWithSaveLayer,
-                             decoration: const BoxDecoration(
-                                 color: Colors.blue,
-                                 borderRadius: BorderRadius.all(Radius.circular(25))
-                             ),
-                             child: CachedNetworkImage(
-                               fit: BoxFit.fill,
-                               imageUrl: state.productsResponse.data?.products?[index].image??'',
-                               placeholder: (context, url) =>
-                                   SizedBox(
-                                       width: double.infinity,
-                                       height: 260,
-                                       child: Shimmer.fromColors(
-                                         baseColor: const Color(0xff56528c),
-                                         highlightColor: const Color(0xff8ee6f1),
-                                         child: Container(color: Colors.grey,),)),
+                   return InkWell(
+                     onTap: (){
+                       Navigator.pushNamed(context,BookDetails.routeName,
+                           arguments: Argument(index: index,
+                               productsResponse: state.productsResponse)
+                       );
+                     },
+                     child: Container(
+                       decoration: BoxDecoration(
+                           border: Border.all(color: Colors.black, width: 1),
+                           borderRadius: BorderRadius.all(Radius.circular(25))
+                       ),
+                       child: Padding(
+                         padding: const EdgeInsets.all(8.0),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Container(
+                               width: 120,
+                               height: 150,
+                               clipBehavior: Clip.antiAliasWithSaveLayer,
+                               decoration: const BoxDecoration(
+                                   color: Colors.blue,
+                                   borderRadius: BorderRadius.all(Radius.circular(25))
+                               ),
+                               child: CachedNetworkImage(
+                                 fit: BoxFit.fill,
+                                 imageUrl: state.productsResponse.data?.products?[index].image??'',
+                                 placeholder: (context, url) =>
+                                     SizedBox(
+                                         width: double.infinity,
+                                         height: 260,
+                                         child: Shimmer.fromColors(
+                                           baseColor: const Color(0xff56528c),
+                                           highlightColor: const Color(0xff8ee6f1),
+                                           child: Container(color: Colors.grey,),)),
 
 
-                               errorWidget: (context, url, error) =>
-                               const Icon(Icons.error),
+                                 errorWidget: (context, url, error) =>
+                                 const Icon(Icons.error),
+                               ),
+                             ), SizedBox(
+                               width: MediaQuery.of(context).size.width*.5,
+                               child: Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
+                                   Text(state.productsResponse.data?.products?[index].name??''),
+                                   Text(state.productsResponse.data?.products?[index].category??''),
+                                   Text('${
+                                        state.productsResponse.data?.products?[index]
+                                            .priceAfterDiscount
+                                      }'),
+                                 ],
+                               ),
                              ),
-                           ), SizedBox(
-                             width: MediaQuery.of(context).size.width*.5,
-                             child: Column(
-                               crossAxisAlignment: CrossAxisAlignment.start,
+                             Column(
                                children: [
-                                 Text(state.productsResponse.data?.products?[index].name??''),
-                                 Text(state.productsResponse.data?.products?[index].category??''),
-                                 Text('${
-                                      state.productsResponse.data?.products?[index]
-                                          .priceAfterDiscount
-                                    }'),
+                                 IconButton(
+                                     onPressed: () {},
+                                     icon: Icon(Icons.favorite)),
+                                 IconButton(
+                                     onPressed: () {},
+                                     icon: Icon(Icons.shopping_cart))
                                ],
-                             ),
-                           ),
-                           Column(
-                             children: [
-                               IconButton(
-                                   onPressed: () {},
-                                   icon: Icon(Icons.favorite)),
-                               IconButton(
-                                   onPressed: () {},
-                                   icon: Icon(Icons.shopping_cart))
-                             ],
-                           )
+                             )
 
-                         ],
+                           ],
+                         ),
                        ),
                      ),
                    );

@@ -1,10 +1,11 @@
 import 'package:book_store/Core/Component/search.dart';
 import 'package:book_store/Features/Auth/View/Pages/login_screen.dart';
-import 'package:book_store/Features/Book%20Details%20Screen/View/Pages/movie_details.dart';
+import 'package:book_store/Features/Check%20out%20Screem/View/Pages/checkout_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'Features/Auth/View/Pages/register_screen.dart';
 import 'Features/Auth/View/Pages/verify_email.dart';
+import 'Features/Book Details Screen/View/Pages/book_details.dart';
 import 'Features/Home Screen/View/Pages/home_screen.dart';
 import 'Features/onboarding/View/Pages/onboarding.dart';
 
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName : (_) => HomeScreen(),
         BookDetails.routeName : (_) => BookDetails(),
         SearchProduct.routeName : (_) => SearchProduct(),
-
+        CheckoutScreen.routeName : (_) => CheckoutScreen(),
       },
     );
   }

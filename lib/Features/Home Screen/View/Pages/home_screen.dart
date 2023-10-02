@@ -40,6 +40,9 @@ class HomeScreen extends StatelessWidget {
                       icon: Icon(Icons.favorite),
                       label: 'Favorite'),
                   BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_cart),
+                      label: 'Cart'),
+                  BottomNavigationBarItem(
                       icon: Icon(Icons.person), label: 'Profile'),
                 ],
               ),

@@ -1,8 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:book_store/Features/Add%20to%20cart/Model/Add%20to%20Cart/AddToCartResponde.dart';
+import 'package:book_store/Features/Add%20to%20cart/Model/Remove%20From%20Cart/RemoveFromCart.dart';
+import 'package:book_store/Features/AddToWishlist/Model/AddToWishList.dart';
 import 'package:book_store/Features/Auth/ViewModel/Login/login_cubit.dart';
 import 'package:book_store/Features/Books%20Tab/Model/ProductsResponse.dart';
 import 'package:book_store/Features/Books%20Tab/Model/Search%20Model/SearchResponse.dart';
+import 'package:book_store/Features/Cart%20Tab/Models/Show%20Cart/ShowCartResponse.dart';
+import 'package:book_store/Features/Check%20out%20Screem/Model/CheckOutResponse.dart';
+import 'package:book_store/Features/Check%20out%20Screem/Model/Governrates/ShowGovernratesResponse.dart';
+import 'package:book_store/Features/Check%20out%20Screem/Model/Place%20Order/PlaceorderResponse.dart';
+import 'package:book_store/Features/Favirite%20tab/Model/Show%20Wishlist/ShowWishlistResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/All%20Categories/AllCategoriesResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/Best%20Seller%20Model/BestSellerResponse.dart';
 import 'package:book_store/Features/Home%20Tab/Models/New%20Arrival/NewArrivalResponse.dart';
@@ -176,10 +184,128 @@ class ApiManager {
     };
     var uri = Uri.https(baseUrl, 'api/products-search',queryParams);
     var request = await http.get(uri);
-    print(request.body);
     var search = SearchResponse.fromJson(jsonDecode(request.body));
-    print(search.message??'lll');
     return search;
   }
+
+
+
+  static Future<AddToCartResponse> addToCart(int id) async {
+    var uri = Uri.https(baseUrl, 'api/add-to-cart');
+    var request = await http.post(uri,
+      body: {
+      'product_id' : '$id'
+      },
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+    var addToCart = AddToCartResponse.fromJson(jsonDecode(request.body));
+
+    return addToCart;
+  }
+
+  static Future<AddToWishList> addToWishList(int id) async {
+    var uri = Uri.https(baseUrl, 'api/add-to-wishlist');
+    var request = await http.post(uri,
+      body: {
+        'product_id' : '$id'
+      },
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+    var addToWishList = AddToWishList.fromJson(jsonDecode(request.body));
+
+    return addToWishList;
+  }
+  static Future<ShowCartResponse> showCart() async {
+    var uri = Uri.https(baseUrl, 'api/cart');
+    var request = await http.get(uri,
+
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+    var showCart = ShowCartResponse.fromJson(jsonDecode(request.body));
+
+    return showCart;
+  }
+  static Future<RemoveFromCart> removeFromCart(int id) async {
+    var uri = Uri.https(baseUrl, 'api/remove-from-cart');
+    var request = await http.post(uri,
+      body: {
+      'cart_item_id' : '$id'
+      },
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+    var removeFromCart = RemoveFromCart.fromJson(jsonDecode(request.body));
+
+    return removeFromCart;
+  }
+
+
+  static Future<ShowWishlistResponse> showWishlist() async {
+    var uri = Uri.https(baseUrl, 'api/wishlist');
+    var request = await http.get(uri,
+
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+
+    var showWishlist = ShowWishlistResponse.fromJson(jsonDecode(request.body));
+
+    return showWishlist;
+  }
+
+  static Future<CheckOutResponse> checkout() async {
+    var uri = Uri.https(baseUrl, 'api/checkout');
+    var request = await http.get(uri,
+
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+    var checkout = CheckOutResponse.fromJson(jsonDecode(request.body));
+
+    return checkout;
+  }
+
+  static Future<ShowGovernoratesResponse> getGovernorate() async {
+    var uri = Uri.https(baseUrl, 'api/governorates');
+    var request = await http.get(uri,
+
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+
+    );
+    var getGovernorate = ShowGovernoratesResponse.fromJson(jsonDecode(request.body));
+
+    return getGovernorate;
+  }
+
+
+  static Future<PlaceorderResponse> placeOrder({
+    required String email,
+    required String name,
+    required String address,
+    required String phone,
+    required int cityId
+  }) async {
+    var uri = Uri.https(baseUrl, 'api/place-order');
+    var request = await http.post(
+      uri,
+      body: {
+        'email': email,
+        'name': name,
+        'address' : address,
+        'governorate_id' : '$cityId',
+        'phone' : phone
+      },
+
+      headers: {HttpHeaders.authorizationHeader: 'Bearer ${LoginCubit.userModel.data?.token}'},
+    );
+
+    var placeOrder = PlaceorderResponse.fromJson(jsonDecode(request.body));
+    return placeOrder;
+  }
+
+
 
 }

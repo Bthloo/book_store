@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../Book Details Screen/View/Pages/movie_details.dart';
+import '../../../Book Details Screen/View/Pages/book_details.dart';
 import '../../../Home Tab/View/Pages/home_tab.dart';
 
 class BooksTab extends StatelessWidget {

@@ -1,4 +1,3 @@
-import 'package:book_store/Features/Book%20Details%20Screen/View/Pages/movie_details.dart';
 import 'package:book_store/Features/Home%20Tab/ViewModel/Categories/all_categories_cubit.dart';
 import 'package:book_store/Features/Home%20Tab/ViewModel/New%20Arrival/new_arrival_cubit.dart';
 import 'package:book_store/Features/Home%20Tab/ViewModel/SliderCubit/slider_cubit.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Component/book_item.dart';
 import '../../../../Core/Component/slider.dart';
+import '../../../Book Details Screen/View/Pages/book_details.dart';
 import '../../../Books Tab/Model/ProductsResponse.dart';
 import '../../../Books Tab/Model/Search Model/SearchResponse.dart';
 import '../../Models/Best Seller Model/BestSellerResponse.dart';

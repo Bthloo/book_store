@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../Features/Book Details Screen/View/Pages/movie_details.dart';
+import '../../Features/Book Details Screen/View/Pages/book_details.dart';
 import '../../Features/Books Tab/ViewModel/SearchViewModel/search_cubit.dart';
 import '../../Features/Home Tab/View/Pages/home_tab.dart';
 

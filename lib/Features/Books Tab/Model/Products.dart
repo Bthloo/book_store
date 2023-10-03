@@ -38,7 +38,7 @@ class Products {
   String? name;
   String? description;
   String? price;
-  int? discount;
+  num? discount;
   num? priceAfterDiscount;
   int? stock;
   int? bestSeller;

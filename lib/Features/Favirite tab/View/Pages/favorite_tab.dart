@@ -1,5 +1,7 @@
 import 'package:book_store/Features/Add%20to%20cart/Model/Remove%20From%20Cart/RemoveFromCart.dart';
+import 'package:book_store/Features/Book%20Details%20Screen/View/Pages/book_details.dart';
 import 'package:book_store/Features/Cart%20Tab/ViewModel/Show%20Cart/show_cart_cubit.dart';
+import 'package:book_store/Features/Home%20Tab/View/Pages/home_tab.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,66 +33,78 @@ class FavoriteTab extends StatelessWidget {
                 }
                 return ListView.separated(
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(width: 1, color: Colors.black)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25)
-
-                              ),
-                              child: CachedNetworkImage(
-                                width: MediaQuery.of(context).size.width * .3,
-                                height: MediaQuery.of(context).size.height * .2,
-                                fit: BoxFit.fill,
-                                imageUrl: state.showWishlistResponse.data?.productData?[index].image??
-                                    '',
-                                placeholder: (context, url) => SizedBox(
-                                    child: Shimmer.fromColors(
-                                      baseColor: const Color(0xff56528c),
-                                      highlightColor: const Color(0xff8ee6f1),
-                                      child: Container(
-                                        color: Colors.grey,
-                                      ),
-                                    )),
-                                errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width*.4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(state.showWishlistResponse.data?.productData?[index].name ??
-                                      '',style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-
-                                  ),maxLines: 3,overflow: TextOverflow.ellipsis),
-                                  Text('data')
-                                ],
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-
-                                SizedBox(height:MediaQuery.of(context).size.height * .1,),
-                                Text('${
-                                    state.showWishlistResponse.data?.productData?[index].price
-                                }' ??
-                                    '')
-                              ],
+                      return InkWell(
+                        onTap: (){
+                          Navigator.pushNamed(
+                              context,
+                              BookDetails.routeName,
+                            arguments: Argument(
+                                index: index,
+                              favoriteResponse: state.showWishlistResponse
                             )
-                          ],
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(width: 1, color: Colors.black)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25)
+
+                                ),
+                                child: CachedNetworkImage(
+                                  width: MediaQuery.of(context).size.width * .3,
+                                  height: MediaQuery.of(context).size.height * .2,
+                                  fit: BoxFit.fill,
+                                  imageUrl: state.showWishlistResponse.data?.productData?[index].image??
+                                      '',
+                                  placeholder: (context, url) => SizedBox(
+                                      child: Shimmer.fromColors(
+                                        baseColor: const Color(0xff56528c),
+                                        highlightColor: const Color(0xff8ee6f1),
+                                        child: Container(
+                                          color: Colors.grey,
+                                        ),
+                                      )),
+                                  errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width*.4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(state.showWishlistResponse.data?.productData?[index].name ??
+                                        '',style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+
+                                    ),maxLines: 3,overflow: TextOverflow.ellipsis),
+                                    Text('data')
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  SizedBox(height:MediaQuery.of(context).size.height * .1,),
+                                  Text('${
+                                      state.showWishlistResponse.data?.productData?[index].price
+                                  }' ??
+                                      '')
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

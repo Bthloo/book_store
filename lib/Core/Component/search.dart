@@ -20,15 +20,29 @@ class SearchProduct extends StatelessWidget {
     //searchCubit.search(keyWord: 'z');
     return Scaffold(
       appBar: AppBar(
+
         title:  TextField(
+          autofocus: true,
           controller: searchController,
           onChanged: (text) {
             searchCubit.search(keyWord: text);
-
           },
           onSubmitted: (value) {
             searchCubit.search(keyWord: value);
           },
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.search),
+              //labelText: 'Email',
+              hintText: 'Search...',
+              //suffixIcon: ,
+              hintStyle: TextStyle(
+                  color: Color(0xff444444)
+              ),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                borderSide: BorderSide.none
+              ),
+            )
         ),
       ),
       body: Padding(

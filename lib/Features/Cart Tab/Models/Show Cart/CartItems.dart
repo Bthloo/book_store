@@ -39,11 +39,11 @@ class CartItems {
   String? itemProductName;
   String? itemProductImage;
   String? itemProductPrice;
-  int? itemProductDiscount;
-  double? itemProductPriceAfterDiscount;
+  num? itemProductDiscount;
+  num? itemProductPriceAfterDiscount;
   int? itemProductStock;
   int? itemQuantity;
-  double? itemTotal;
+  num? itemTotal;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

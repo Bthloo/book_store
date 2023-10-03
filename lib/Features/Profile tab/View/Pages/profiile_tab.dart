@@ -44,189 +44,210 @@ class ProfileTab extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 90,
-                    child: CachedNetworkImage(
-                      fit: BoxFit.fill,
-                      imageUrl: state.response?.data?.image ?? '',
-                      placeholder: (context, url) =>
-                          SizedBox(
-                              width: double.infinity,
-                              height: 260,
-                              child: Shimmer.fromColors(
-                                baseColor: const Color(0xff56528c),
-                                highlightColor: const Color(0xff8ee6f1),
-                                child: Container(color: Colors.grey,),)),
-
-
-                      errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
-                    ),
-                  ),
-                  SizedBox(height: 40,),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.blue
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text('Name : ${state.response?.data?.name ?? ''}',
-                        style: TextStyle(
-                            fontSize: 20
-                        ),),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.blue
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text('Email : ${state.response?.data?.email ??
-                          ''}', style: TextStyle(
-                          fontSize: 20
-                      ),),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.blue
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text('Phone : ${state.response?.data?.phone ??
-                          ''}', style: TextStyle(
-                          fontSize: 20
-                      ),),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.blue
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text('City : ${state.response?.data?.city ?? ''}',
-                        style: TextStyle(
-                            fontSize: 20
-                        ),),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.blue
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text('Address : ${state.response?.data?.city ??
-                          ''}', style: TextStyle(
-                          fontSize: 20
-                      ),),
-                    ),
-                  ),
-                  SizedBox(height: 40,),
-                  BlocConsumer<UpdateCubit, UpdateState>(
-                    bloc: updateCubit,
-                    listener: (context, state) {
-                      if(state is UpdateLoading){
-                        buildShowToast('Loading...');
-                      }
-                      else if(state is UpdateError){
-                        buildShowToast(state.message);
-                      }
-                      else if(state is UpdateSuccess){
-                        buildShowToast(state.message);
-                        Navigator.pop(context);
-                      }
-                    },
-                    builder:(context, state) =>  SizedBox(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
                       width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Form(
-                                      key: updateKey,
-                                      child: Column(
-                                        children: [
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Colors.black
+                      ),
+                      child: CircleAvatar(
+                        radius: 90,
+                        child: CachedNetworkImage(
+                          fit: BoxFit.fill,
+                          imageUrl: state.response?.data?.image ?? '',
+                          placeholder: (context, url) =>
+                              SizedBox(
+                                  width: double.infinity,
+                                  height: 260,
+                                  child: Shimmer.fromColors(
+                                    baseColor: const Color(0xff56528c),
+                                    highlightColor: const Color(0xff8ee6f1),
+                                    child: Container(color: Colors.grey,),)),
 
-                                          CustomFormField(
-                                              hintText: 'Name',
-                                              validator:(value) => MyValidators.nameValidator(value),
-                                              controller: nameController),
-                                          SizedBox(height: 10,),
-                                          CustomFormField(
-                                              hintText: 'Email',
-                                              validator:(value) => MyValidators.nameValidator(value),
-                                              controller: emailController),
-                                          SizedBox(height: 10,),
-                                          CustomFormField(
-                                              hintText: 'Phone',
-                                              validator:(value) => MyValidators.nameValidator(value),
-                                              controller: phoneController),
-                                          SizedBox(height: 10,),
-                                          CustomFormField(
-                                              hintText: 'City',
-                                              validator:(value) => MyValidators.nameValidator(value),
-                                              controller: cityController),
-                                          SizedBox(height: 10,),
-                                          CustomFormField(
-                                              hintText: 'Address',
-                                              validator:(value) => MyValidators.nameValidator(value),
-                                              controller: addressController),
-                                          SizedBox(height: 10,),
-                                          SizedBox(width: double.infinity,
-                                            child: ElevatedButton(
-                                              onPressed: (){
-                                                updateCubit.update(
-                                                    email: emailController.text,
-                                                    name: nameController.text,
-                                                    phone: phoneController.text,
-                                                    address: addressController.text,
-                                                    city: cityController.text);
-                                              },
-                                              child: Text('Update'),
+
+                          errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(25)
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Name : ${state.response?.data?.name ?? ''}',
+                                style: TextStyle(
+                                    fontSize: 20
+                                ),),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Email : ${state.response?.data?.email ??
+                                  ''}', style: TextStyle(
+                                  fontSize: 20
+                              ),),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Phone : ${state.response?.data?.phone ??
+                                  ''}', style: TextStyle(
+                                  fontSize: 20
+                              ),),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('City : ${state.response?.data?.city ?? ''}',
+                                style: TextStyle(
+                                    fontSize: 20
+                                ),),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.white
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Address : ${state.response?.data?.address ??
+                                  ''}', style: TextStyle(
+                                  fontSize: 20
+                              ),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 40,),
+                    BlocConsumer<UpdateCubit, UpdateState>(
+                      bloc: updateCubit,
+                      listener: (context, state) {
+                        if(state is UpdateLoading){
+                          buildShowToast('Loading...');
+                        }
+                        else if(state is UpdateError){
+                          buildShowToast(state.message);
+                        }
+                        else if(state is UpdateSuccess){
+                          buildShowToast(state.message);
+                          Navigator.pop(context);
+                        }
+                      },
+                      builder:(context, state) =>  SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Form(
+                                        key: updateKey,
+                                        child: Column(
+                                          children: [
+
+                                            CustomFormField(
+                                                hintText: 'Name',
+                                                validator:(value) => MyValidators.nameValidator(value),
+                                                controller: nameController),
+                                            SizedBox(height: 10,),
+                                            CustomFormField(
+                                                hintText: 'Email',
+                                                validator:(value) => MyValidators.nameValidator(value),
+                                                controller: emailController),
+                                            SizedBox(height: 10,),
+                                            CustomFormField(
+                                                hintText: 'Phone',
+                                                validator:(value) => MyValidators.nameValidator(value),
+                                                controller: phoneController),
+                                            SizedBox(height: 10,),
+                                            CustomFormField(
+                                                hintText: 'City',
+                                                validator:(value) => MyValidators.nameValidator(value),
+                                                controller: cityController),
+                                            SizedBox(height: 10,),
+                                            CustomFormField(
+                                                hintText: 'Address',
+                                                validator:(value) => MyValidators.nameValidator(value),
+                                                controller: addressController),
+                                            SizedBox(height: 10,),
+                                            SizedBox(width: double.infinity,
+                                              child: ElevatedButton(
+                                                onPressed: (){
+                                                  updateCubit.update(
+                                                      email: emailController.text,
+                                                      name: nameController.text,
+                                                      phone: phoneController.text,
+                                                      address: addressController.text,
+                                                      city: cityController.text);
+                                                },
+                                                child: Text('Update'),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Update Profile', style: TextStyle(
-                                fontSize: 20
-                            ),),
-                          )),
+                                  );
+                                },);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Update Profile', style: TextStyle(
+                                  fontSize: 20
+                              ),),
+                            )),
+                      ),
                     ),
-                  ),
 
-                ],
+                  ],
 
+                ),
               ),
             );
           }

@@ -12,6 +12,8 @@ import '../../../../Core/Component/slider.dart';
 import '../../../Book Details Screen/View/Pages/book_details.dart';
 import '../../../Books Tab/Model/ProductsResponse.dart';
 import '../../../Books Tab/Model/Search Model/SearchResponse.dart';
+import '../../../Cart Tab/Models/Show Cart/ShowCartResponse.dart';
+import '../../../Favirite tab/Model/Show Wishlist/ShowWishlistResponse.dart';
 import '../../Models/Best Seller Model/BestSellerResponse.dart';
 import '../../Models/New Arrival/NewArrivalResponse.dart';
 import '../../ViewModel/Best Seller/best_seller_cubit.dart';
@@ -84,6 +86,81 @@ class HomeTab extends StatelessWidget {
               },
             ),
           ),
+
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Categories',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Show All',
+                    style: TextStyle(
+
+                      fontSize: 17,
+                      // fontWeight: FontWeight.bold
+                    ),
+                  ),)
+              ],
+            ),
+          ),
+
+          BlocProvider(
+            create: (context) =>
+            AllCategoriesCubit()
+              ..allCategories(),
+            child: BlocConsumer<AllCategoriesCubit, AllCategoriesState>(
+              listener: (context, state) {
+              },
+              builder: (context, state) {
+                if(state is AllCategoriesLoading){
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                else if(state is AllCategoriesError){
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+                else if(state is AllCategoriesSuccess){
+                  return SizedBox(
+                    height: 80,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      itemCount: state.allCategoriesResponse.data?.categories?.length??0,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.black,
+                          ),
+                          child: Center(
+                            child: Text(state.allCategoriesResponse.data?.categories?[index].name??'',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(width: 10,),
+                    ),
+                  );
+                }
+                return SizedBox();
+              },
+            ),
+          ),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Row(
@@ -141,16 +218,6 @@ class HomeTab extends StatelessWidget {
                               arguments: Argument(index: index,
                                   bestSellerResponse: state.bestSellerResponse)
                             );
-                            // Navigator.pushNamed(
-                            //     context,
-                            //     MovieDetailsScreen.routeName,
-                            //     arguments: Arggs(
-                            //         index: index,
-                            //         nowPlayingDetails: data,
-                            //         id: data[index].id
-                            //
-                            //     )
-                            // );
                           },
                           child:
                           Container(
@@ -162,6 +229,8 @@ class HomeTab extends StatelessWidget {
                                   ?.products?[index].name,
                               price: state.bestSellerResponse.data
                                   ?.products?[index].price,
+                              priceAfterDiscount: state.bestSellerResponse.data
+                                  ?.products?[index].priceAfterDiscount,
                             ),
                           ),
 
@@ -180,80 +249,7 @@ class HomeTab extends StatelessWidget {
             ),
           ),
 
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Categories',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Show All',
-                    style: TextStyle(
 
-                      fontSize: 17,
-                      // fontWeight: FontWeight.bold
-                    ),
-                  ),)
-              ],
-            ),
-          ),
-
-          BlocProvider(
-            create: (context) =>
-            AllCategoriesCubit()
-              ..allCategories(),
-            child: BlocConsumer<AllCategoriesCubit, AllCategoriesState>(
-              listener: (context, state) {
-              },
-              builder: (context, state) {
-                if(state is AllCategoriesLoading){
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                else if(state is AllCategoriesError){
-                  return Center(
-                    child: Text(state.message),
-                  );
-                }
-                else if(state is AllCategoriesSuccess){
-                  return SizedBox(
-                    height: 80,
-                    width: double.infinity,
-                    child: ListView.separated(
-                      itemCount: state.allCategoriesResponse.data?.categories?.length??0,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.red,
-                          ),
-                          child: Center(
-                            child: Text(state.allCategoriesResponse.data?.categories?[index].name??'',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                              ),),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(width: 10,),
-                    ),
-                  );
-                }
-                return SizedBox();
-              },
-            ),
-          ),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Row(
@@ -330,6 +326,8 @@ class HomeTab extends StatelessWidget {
                                   ?.products?[index].name,
                               price: state.newArrivalResponse.data
                                   ?.products?[index].price,
+                              priceAfterDiscount: state.newArrivalResponse.data
+                                  ?.products?[index].priceAfterDiscount,
                             ),
                           ),
 
@@ -358,11 +356,15 @@ class Argument {
   BestSellerResponse? bestSellerResponse;
   SearchResponse? searchResponse;
   ProductsResponse? productsResponse;
+  ShowWishlistResponse? favoriteResponse;
+  ShowCartResponse? cartResponse;
   Argument({required this.index,
     this.newArrivalResponse,
     this.bestSellerResponse,
   this.searchResponse,
-    this.productsResponse
+    this.productsResponse,
+    this.favoriteResponse,
+    this.cartResponse
   });
 
 }

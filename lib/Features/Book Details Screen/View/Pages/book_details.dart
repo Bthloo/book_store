@@ -1,6 +1,7 @@
 import 'package:book_store/Core/Component/toast.dart';
 import 'package:book_store/Features/Add%20to%20cart/ViewModel/Add%20to%20cart%20Cubit/add_to_caet_cubit.dart';
 import 'package:book_store/Features/AddToWishlist/ViewModel/Add%20To%20Wish%20List%20Cubit/add_to_wish_list_cubit.dart';
+import 'package:book_store/Features/Cart%20Tab/Models/Show%20Cart/ShowCartResponse.dart';
 import 'package:book_store/Features/Home%20Screen/View/Pages/home_screen.dart';
 import 'package:book_store/Features/Home%20Tab/View/Pages/home_tab.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -35,6 +36,10 @@ class BookDetails extends StatelessWidget {
                         ?.products?[argument.index].id ??
                     argument.searchResponse?.data
                         ?.products?[argument.index].id ??
+                        argument.cartResponse?.data
+                            ?.cartItems?[argument.index].itemId ??
+                        argument.favoriteResponse?.data
+                            ?.productData?[argument.index].id ??
                     -1);
               }
           ),
@@ -57,6 +62,10 @@ class BookDetails extends StatelessWidget {
                           .image ??
                       argument.searchResponse?.data?.products?[argument.index]
                           .image ??
+                      argument.cartResponse?.data?.cartItems?[argument.index]
+                          .itemProductImage ??
+                      argument.favoriteResponse?.data
+                          ?.productData?[argument.index].image ??
                       '',
                   placeholder: (context, url) => SizedBox(
                       width: double.infinity,
@@ -83,6 +92,10 @@ class BookDetails extends StatelessWidget {
                         .name ??
                     argument
                         .searchResponse?.data?.products?[argument.index].name ??
+                    argument.cartResponse?.data?.cartItems?[argument.index]
+                        .itemProductName ??
+                    argument.favoriteResponse?.data
+                        ?.productData?[argument.index].name ??
                     '',
                 style:
                     const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -102,6 +115,8 @@ class BookDetails extends StatelessWidget {
                             ?.products?[argument.index].category ??
                         argument.searchResponse?.data?.products?[argument.index]
                             .category ??
+                        argument.favoriteResponse?.data
+                            ?.productData?[argument.index].category ??
                         '',
                     style: const TextStyle(
                       fontSize: 20,
@@ -118,6 +133,10 @@ class BookDetails extends StatelessWidget {
                                 ?.products?[argument.index].price ??
                             argument.searchResponse?.data
                                 ?.products?[argument.index].price ??
+                            argument.cartResponse?.data?.cartItems?[argument.index]
+                                .itemProductPrice ??
+                            argument.favoriteResponse?.data
+                                ?.productData?[argument.index].price ??
                             '',
                         style: const TextStyle(
                             fontSize: 20,
@@ -126,7 +145,14 @@ class BookDetails extends StatelessWidget {
                             decorationColor: Colors.grey),
                       ),
                       Text(
-                        '${argument.bestSellerResponse?.data?.products?[argument.index].priceAfterDiscount ?? argument.newArrivalResponse?.data?.products?[argument.index].priceAfterDiscount ?? argument.productsResponse?.data?.products?[argument.index].priceAfterDiscount ?? argument.searchResponse?.data?.products?[argument.index].priceAfterDiscount}',
+                        '${
+                            argument.bestSellerResponse?.data?.products?[argument.index].priceAfterDiscount ??
+                                argument.newArrivalResponse?.data?.products?[argument.index].priceAfterDiscount ??
+                                argument.productsResponse?.data?.products?[argument.index].priceAfterDiscount ??
+                                argument.searchResponse?.data?.products?[argument.index].priceAfterDiscount ??
+                                argument.cartResponse?.data?.cartItems?[argument.index]
+                                    .itemProductPriceAfterDiscount ??''
+                        }',
                         style: const TextStyle(
                           fontSize: 20,
                         ),
@@ -154,6 +180,8 @@ class BookDetails extends StatelessWidget {
                         .description ??
                     argument.searchResponse?.data?.products?[argument.index]
                         .description ??
+                    argument.favoriteResponse?.data?.productData?[argument.index].description??
+
                     '',
                 style: const TextStyle(
                   fontSize: 20,
@@ -172,6 +200,8 @@ class BookDetails extends StatelessWidget {
                           ?.products?[argument.index].id ??
                       argument.searchResponse?.data
                           ?.products?[argument.index].id ??
+                      argument.cartResponse?.data?.cartItems?[argument.index]
+                          .itemId ??
                       -1);
                 }
               ),
@@ -244,3 +274,5 @@ class BookDetails extends StatelessWidget {
   }
 
 }
+
+

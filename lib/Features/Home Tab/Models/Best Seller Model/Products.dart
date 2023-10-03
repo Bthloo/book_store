@@ -38,8 +38,8 @@ class Products {
   String? name;
   String? description;
   String? price;
-  int? discount;
-  double? priceAfterDiscount;
+  num? discount;
+  num? priceAfterDiscount;
   int? stock;
   int? bestSeller;
   String? image;

@@ -6,7 +6,14 @@ class BookItem extends StatelessWidget {
   String? imageUrl;
   String? name;
   String? price;
-  BookItem({super.key,  this.imageUrl,required this.name,required this.price});
+  num? priceAfterDiscount;
+  BookItem({super.key,
+    this.imageUrl,
+    required this.name,
+    required this.price,
+    required this.priceAfterDiscount
+
+  });
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -50,14 +57,33 @@ class BookItem extends StatelessWidget {
           Positioned(
             top: 10,
             right: 10,
-            child: CircleAvatar(
-              backgroundColor: Color(0xffF5C518),
-              radius: 30,
-              child: Text('$price',style: const TextStyle(overflow: TextOverflow.clip,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.black
-              ),),
+            child: Container(
+              padding: EdgeInsets.all(10),
+             // backgroundColor: Color(0xffF5C518),
+              //radius: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Color(0xffF5C518)
+              ),
+              child: Column(
+                children: [
+                  Text('${price?.substring(0,3)}',style: const TextStyle(overflow: TextOverflow.clip,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.black54,
+                    decoration: TextDecoration.lineThrough,
+                    decorationColor: Colors.black54
+
+                  ),),
+                  //SizedBox(height: 5,),
+                  Text('$priceAfterDiscount',style: const TextStyle(overflow: TextOverflow.clip,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.black
+                  ),),
+
+                ],
+              ),
             ),
           )
         ]
